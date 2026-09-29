@@ -1,4 +1,4 @@
-const CACHE='tokyo-izu-handbook-github-v16';
+const CACHE='tokyo-izu-handbook-github-v18';
 const ASSETS=['./','./index.html','./images/visit-japan-web-qr-wu-jiayu.jpg','./images/ginza-shopping-guide.jpg','./images/saphir-odoriko-2026-10-04.png','./images/odoriko-base-fare-2026-10-06.png','./images/shibuya-sky-ticket-1.jpg','./images/shibuya-sky-ticket-2.jpg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
