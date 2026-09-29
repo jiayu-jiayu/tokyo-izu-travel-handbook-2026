@@ -13,18 +13,16 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%230052D9%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2245%22%20cy%3D%2218%22%20r%3D%2210%22%20fill%3D%22%23CFE4FF%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2045c9-16%2015-22%2022-22%205%200%209%203%2016%2012-8-4-13-5-18-3-5%201-10%206-20%2013Z%22%20fill%3D%22%23FFFFFF%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M14%2049h36%22%20stroke%3D%22%23E8F3FF%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%230052D9%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2245%22%20cy%3D%2218%22%20r%3D%2210%22%20fill%3D%22%23CFE4FF%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2045c9-16%2015-22%2022-22%205%200%209%203%2016%2012-8-4-13-5-18-3-5%201-10%206-20%2013Z%22%20fill%3D%22%23FFFFFF%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M14%2049h36%22%20stroke%3D%22%23E8F3FF%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A">
   <style>:root {
-  --ink: #1f2329;
-  --ink-soft: #5e6266;
-  --teal: #0052d9;
-  --teal-deep: #003d99;
-  --teal-pale: #e8f3ff;
-  --coral: #0052d9;
+  --ink: #17191c;
+  --ink-soft: #666b73;
+  --blue: #0052d9;
+  --blue-deep: #003d99;
+  --blue-pale: #e8f3ff;
   --paper: #f8f9fa;
   --surface: #ffffff;
-  --mist: #f5f9ff;
   --line: #cfe4ff;
-  --shadow: 0 2px 8px rgba(0, 0, 0, .08);
-  --radius: 18px;
+  --line-soft: #e8edf3;
+  --shadow: 0 8px 24px rgba(31, 35, 41, .08);
   font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Noto Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
   color: var(--ink);
   background: var(--paper);
@@ -33,99 +31,330 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--paper); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
 
-.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 100; background: var(--ink); color: white; padding: .75rem 1rem; border-radius: 10px; }
+.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 100; background: var(--ink); color: white; padding: .75rem 1rem; border-radius: 999px; }
 .skip-link:focus { top: 1rem; }
 
 .topbar {
-  min-height: 66px;
-  padding: max(.7rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) .65rem max(1rem, env(safe-area-inset-left));
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255, 255, 255, .94); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--line);
+  width: min(760px, 100%);
+  margin: 0 auto;
+  min-height: 118px;
+  padding: max(1.4rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) 1.25rem max(1.25rem, env(safe-area-inset-left));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--surface);
 }
-.trip-mark { display: flex; align-items: center; gap: .65rem; }
-.trip-mark b { display: block; font-size: 1.02rem; font-weight: 600; letter-spacing: .01em; }
-.trip-mark small { display: block; margin-top: .08rem; color: var(--ink-soft); letter-spacing: .06em; font-size: .7rem; }
-.trip-stamp {
-  display: grid; place-items: center; width: 34px; aspect-ratio: 1;
-  border: 0; color: white; background: var(--teal-deep); border-radius: 11px;
-  font-family: inherit; font-weight: 600; transform: none;
+.top-title { min-width: 0; }
+.top-kicker { display: block; margin-bottom: .4rem; color: var(--blue-deep); font-size: .75rem; font-weight: 800; letter-spacing: .24em; }
+.top-title strong { display: block; font-size: clamp(1.9rem, 9vw, 2.45rem); font-weight: 800; line-height: 1; letter-spacing: -.04em; }
+.top-actions { flex: 0 0 auto; display: flex; align-items: center; gap: .6rem; }
+.top-meta { text-align: right; }
+.top-meta b { display: block; font-size: .92rem; font-weight: 700; }
+.top-meta small { display: block; margin-top: .2rem; color: var(--ink-soft); font-size: .68rem; letter-spacing: .04em; }
+.icon-button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--blue);
+  box-shadow: 0 4px 14px rgba(31, 35, 41, .08);
 }
-.icon-button { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); color: var(--ink); }
-.icon-button svg { width: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icon-button svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 .date-ribbon {
-  position: sticky; top: 0; z-index: 20;
-  background: rgba(255, 255, 255, .96); border-bottom: 1px solid var(--line);
-  box-shadow: var(--shadow); backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, .96);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  backdrop-filter: blur(16px);
 }
 .date-scroll {
-  display: flex; gap: .35rem; overflow-x: auto; overscroll-behavior-inline: contain;
-  scrollbar-width: none; padding: .55rem max(.75rem, env(safe-area-inset-right)) .55rem max(.75rem, env(safe-area-inset-left));
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: flex;
+  gap: .65rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  padding: .85rem max(1.1rem, env(safe-area-inset-right)) .9rem max(1.1rem, env(safe-area-inset-left));
 }
 .date-scroll::-webkit-scrollbar { display: none; }
 .date-tab {
-  flex: 0 0 auto; min-width: 66px; min-height: 52px;
-  border: 0; border-radius: 14px; padding: .3rem .65rem;
-  background: transparent; color: var(--ink-soft); text-align: center; cursor: pointer;
+  flex: 0 0 auto;
+  min-width: 112px;
+  min-height: 62px;
+  border: 1px solid transparent;
+  border-radius: 22px;
+  padding: .62rem .9rem .58rem;
+  background: #f2f4f7;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
 }
-.date-tab span { display: block; font-size: .75rem; }
-.date-tab b { display: block; margin-top: .08rem; font-size: .98rem; font-weight: 600; }
-.date-tab[aria-selected="true"] { background: var(--teal); color: white; }
-.date-tab:focus-visible { outline: 3px solid rgba(228,111,85,.4); outline-offset: 2px; }
+.date-tab b { display: block; white-space: nowrap; font-size: .95rem; font-weight: 800; letter-spacing: .01em; }
+.date-tab .date-label { display: flex; align-items: center; gap: .38rem; margin-top: .22rem; color: var(--ink-soft); font-size: .72rem; }
+.date-tab .date-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 3px rgba(0, 82, 217, .1); }
+.date-tab[aria-selected="true"] {
+  border: 2px solid var(--blue-deep);
+  padding: calc(.62rem - 1px) calc(.9rem - 1px) calc(.58rem - 1px);
+  background: var(--blue);
+  color: white;
+  box-shadow: 0 4px 0 rgba(0, 61, 153, .22);
+  transform: translateY(-2px);
+}
+.date-tab[aria-selected="true"] .date-label { color: rgba(255, 255, 255, .82); }
+.date-tab[aria-selected="true"] .date-label::before { background: white; box-shadow: 0 0 0 3px rgba(255, 255, 255, .18); }
+.date-tab:focus-visible { outline: 3px solid rgba(0, 82, 217, .25); outline-offset: 3px; }
 
-.page-shell { width: min(760px, 100%); margin: 0 auto; padding: 1.4rem 1rem calc(5rem + env(safe-area-inset-bottom)); }
-.day-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: .85rem; margin: .2rem 0 1.45rem; }
-.eyebrow { color: var(--teal-deep); font-weight: 600; font-size: .78rem; letter-spacing: .04em; }
-.day-heading h1 { margin: .3rem 0 .35rem; font-size: clamp(1.75rem, 7vw, 2.5rem); font-weight: 600; line-height: 1.2; letter-spacing: 0; }
-.day-heading p { margin: 0; color: var(--ink-soft); font-size: .94rem; line-height: 1.6; }
-.weather-note { flex: 0 0 auto; margin-top: .2rem; padding: .3rem .55rem; color: var(--teal-deep); background: var(--teal-pale); border: 1px solid var(--line); border-radius: 999px; font-size: .72rem; font-weight: 600; transform: none; }
+.page-shell { width: min(720px, 100%); margin: 0 auto; padding: 2.2rem 1.25rem calc(5rem + env(safe-area-inset-bottom)); }
+.day-heading {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 1.2rem;
+  align-items: start;
+  margin: 0 0 2.15rem;
+}
+.day-date { padding-top: .15rem; }
+.day-date strong { display: block; font-size: 1.42rem; font-weight: 850; line-height: 1; letter-spacing: -.04em; }
+.day-date span { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: .82rem; }
+.day-copy { min-width: 0; }
+.day-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: .6rem; }
+.day-heading h1 { margin: 0; font-size: clamp(1.42rem, 6vw, 1.95rem); font-weight: 800; line-height: 1.22; letter-spacing: -.03em; }
+.day-heading p { margin: .45rem 0 0; color: var(--ink-soft); font-size: .88rem; line-height: 1.55; }
+.weather-note { flex: 0 0 auto; padding: .32rem .58rem; color: var(--blue-deep); background: var(--blue-pale); border-radius: 999px; font-size: .68rem; font-weight: 750; white-space: nowrap; }
 
-.timeline { position: relative; }
-.timeline::before { content: ""; position: absolute; left: 64px; top: 12px; bottom: 16px; width: 1px; background: var(--line); }
-.timeline-card { position: relative; display: grid; grid-template-columns: 50px 1fr; gap: 1.65rem; margin-bottom: .9rem; }
-.timeline-time { padding-top: 1.15rem; font-size: .8rem; font-weight: 600; color: var(--coral); text-align: right; line-height: 1.15; }
-.timeline-time::after { content: ""; position: absolute; left: 59px; top: 1.28rem; width: 10px; height: 10px; background: var(--paper); border: 2px solid var(--coral); border-radius: 50%; }
-.place-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-.place-main { padding: 1rem 1rem .95rem; }
-.place-meta { display: flex; align-items: center; gap: .45rem; color: var(--ink-soft); font-size: .77rem; }
-.mode-icon { width: 1.45rem; height: 1.45rem; display: grid; place-items: center; background: var(--teal-pale); border-radius: 50%; font-size: .78rem; }
-.place-main h2 { margin: .38rem 0 .4rem; font-size: 1.16rem; font-weight: 600; line-height: 1.4; letter-spacing: 0; }
-.transit { margin: 0; color: var(--ink-soft); font-size: .89rem; line-height: 1.55; }
-.card-actions { display: flex; justify-content: flex-end; gap: .45rem; margin-top: .7rem; }
-.map-button { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--teal); border-radius: 999px; padding: .4rem .78rem; background: var(--teal-pale); color: var(--teal-deep); font-size: .78rem; font-weight: 600; line-height: 1; text-decoration: none; }
-.booking-button { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 999px; padding: .4rem .78rem; background: var(--surface); color: var(--ink); font-size: .78rem; font-weight: 600; line-height: 1; text-decoration: none; }
-.details-panel { margin-top: .75rem; padding: .55rem .72rem; border: 1px solid var(--line); border-radius: 12px; background: var(--mist); }
-.detail-row { display: grid; grid-template-columns: 3.6rem 1fr; gap: .55rem; padding: .38rem 0; font-size: .82rem; line-height: 1.5; }
-.detail-row + .detail-row { border-top: 1px solid rgba(207, 228, 255, .8); }
-.detail-row b { color: var(--teal); font-size: .74rem; font-weight: 600; letter-spacing: .01em; }
-.detail-row span { color: var(--ink-soft); }
-.ticket-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; margin-top: .75rem; }
-.ticket-gallery a { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--teal-deep); text-decoration: none; }
+.timeline { position: relative; margin-left: 98px; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 16px; width: 1px; background: #dce2e8; }
+.timeline-card { position: relative; margin: 0 0 2.25rem; padding-left: 2.1rem; }
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: .33rem;
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--blue);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--paper);
+}
+.place-card { min-width: 0; }
+.place-main { min-width: 0; }
+.event-line { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: .42rem; }
+.timeline-time { color: #4d525a; font-size: .84rem; font-weight: 850; letter-spacing: .04em; }
+.place-meta { display: inline-flex; align-items: center; gap: .3rem; padding: .23rem .5rem; border-radius: 999px; background: var(--blue-pale); color: var(--blue-deep); font-size: .68rem; font-weight: 750; }
+.mode-icon { display: inline; font-size: .72rem; line-height: 1; }
+.place-main h2 { margin: 0 0 .35rem; font-size: 1.28rem; font-weight: 800; line-height: 1.34; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.transit { margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.58; }
+
+.details-panel { margin-top: .8rem; padding: .62rem 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.detail-row { display: grid; grid-template-columns: 4.15rem minmax(0, 1fr); gap: .65rem; padding: .38rem 0; font-size: .82rem; line-height: 1.52; }
+.detail-row b { color: var(--blue-deep); font-size: .74rem; font-weight: 800; letter-spacing: .01em; }
+.detail-row span { color: #555b63; }
+.card-actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .82rem; }
+.map-button, .booking-button, .resource-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  border: 0;
+  border-radius: 999px;
+  padding: .62rem 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: .8rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+}
+.map-button::before { content: "◎"; color: var(--blue); font-size: .95rem; }
+.booking-button { background: var(--blue); color: white; }
+.booking-button::before { content: "✓"; font-size: .82rem; }
+.resource-button { border: 1px solid var(--line); color: var(--blue-deep); }
+.resource-button::before { content: "↗"; color: var(--blue); font-size: .86rem; }
+
+.image-disclosure, .detail-disclosure { margin-top: .82rem; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.image-disclosure summary, .detail-disclosure summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: .62rem 0;
+  color: var(--blue-deep);
+  cursor: pointer;
+  list-style: none;
+  font-size: .82rem;
+  font-weight: 800;
+}
+.image-disclosure summary::-webkit-details-marker, .detail-disclosure summary::-webkit-details-marker { display: none; }
+.image-disclosure[open] .summary-toggle, .detail-disclosure[open] .summary-toggle { transform: rotate(225deg) translate(-2px, -2px); }
+.disclosure-detail-rows { padding: .1rem 0 .72rem; }
+.disclosure-image-link {
+  width: min(100%, 360px);
+  display: block;
+  overflow: hidden;
+  margin: .15rem auto .9rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  color: var(--blue-deep);
+  box-shadow: 0 6px 20px rgba(31, 35, 41, .07);
+  text-decoration: none;
+}
+.disclosure-image-link img { display: block; width: 100%; height: auto; }
+.disclosure-image-link span { display: block; padding: .55rem .6rem; border-top: 1px solid var(--line); font-size: .72rem; font-weight: 750; text-align: center; }
+.disclosure-links { display: flex; justify-content: center; padding: 0 0 .9rem; }
+.disclosure-resource-link { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 999px; padding: .62rem 1rem; background: var(--blue); color: white; font-size: .8rem; font-weight: 800; text-decoration: none; }
+
+.optional-timeline-card { margin-bottom: 2.25rem; }
+.optional-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 5px 18px rgba(31, 35, 41, .06);
+}
+.optional-card summary {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .9rem 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+.optional-card summary::-webkit-details-marker { display: none; }
+.optional-card summary h2 { margin: 0; font-size: 1.08rem; }
+.summary-toggle {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-right: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform .16s ease;
+}
+.optional-card[open] .summary-toggle { transform: rotate(225deg) translate(-2px, -2px); }
+.optional-card-content { padding: 0 1rem 1rem; border-top: 1px solid var(--line-soft); }
+.optional-card-content > .transit { padding-top: .85rem; }
+.spot-link-list { margin-top: .7rem; }
+.spot-link-row {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  border-top: 1px solid var(--line-soft);
+  padding: .6rem 0;
+}
+.spot-link-row strong { min-width: 0; font-size: .86rem; line-height: 1.4; }
+.spot-link-actions { display: flex; flex: 0 0 auto; gap: .45rem; }
+.spot-icon-button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--blue);
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(31, 35, 41, .06);
+}
+.spot-icon-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.xhs-spot-button { border-color: #ffd5d9; background: #fff5f6; color: #d92835; font-size: .72rem; font-weight: 900; }
+.spot-icon-button:focus-visible, .optional-card summary:focus-visible, .image-disclosure summary:focus-visible, .disclosure-image-link:focus-visible, .disclosure-resource-link:focus-visible { outline: 3px solid rgba(0, 82, 217, .24); outline-offset: 2px; }
+
+.shopping-guide { margin-top: .9rem; padding-top: .9rem; border-top: 1px solid var(--line-soft); }
+.guide-image-block { position: relative; }
+.guide-image-link { display: block; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: white; box-shadow: 0 6px 20px rgba(31, 35, 41, .07); }
+.guide-image-link img { display: block; width: 100%; height: auto; }
+.guide-xhs-button { position: absolute; right: .65rem; bottom: .65rem; border-color: white; box-shadow: 0 4px 14px rgba(31, 35, 41, .18); }
+.guide-shop { margin-top: .8rem; padding: .8rem .85rem; border: 1px solid var(--line-soft); border-radius: 14px; background: #fbfcfe; }
+.guide-shop-heading { display: flex; align-items: center; justify-content: space-between; gap: .8rem; }
+.guide-shop-heading h3 { margin: 0; font-size: .94rem; line-height: 1.35; }
+.guide-shop-notes { margin-top: .45rem; }
+.guide-shop-notes .detail-row { grid-template-columns: 4.6rem minmax(0, 1fr); padding: .3rem 0; }
+
+.ticket-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; margin-top: .85rem; }
+.ticket-gallery a { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--blue-deep); box-shadow: 0 6px 20px rgba(31, 35, 41, .06); text-decoration: none; }
 .ticket-gallery img { display: block; width: 100%; aspect-ratio: .48; object-fit: contain; background: white; }
-.ticket-gallery span { display: block; padding: .5rem .4rem; border-top: 1px solid var(--line); font-size: .72rem; font-weight: 600; text-align: center; }
+.ticket-gallery span { display: block; padding: .55rem .4rem; border-top: 1px solid var(--line); font-size: .72rem; font-weight: 700; text-align: center; }
 
-.day-note { margin: 1.4rem 0; border: 1px solid var(--line); border-left: 4px solid var(--teal); border-radius: 14px; padding: .9rem 1rem; background: var(--surface); box-shadow: var(--shadow); font-size: .87rem; line-height: 1.65; color: var(--ink-soft); }
-.utility-strip { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.text-button { min-height: 44px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 12px; padding: .65rem .8rem; font: inherit; font-size: .83rem; text-decoration: none; cursor: pointer; }
-.toast { position: fixed; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom)); z-index: 60; max-width: calc(100% - 2rem); transform: translate(-50%, 140%); transition: transform .25s ease; background: var(--ink); color: white; border-radius: 12px; padding: .72rem 1rem; box-shadow: var(--shadow); font-size: .84rem; }
+.day-note { margin: .5rem 0 1.5rem 98px; border-left: 3px solid var(--blue); padding: .2rem 0 .2rem .9rem; font-size: .86rem; line-height: 1.65; color: var(--ink-soft); }
+.food-backups { margin: 2.6rem 0 0 98px; }
+.food-backups-heading { margin-bottom: .9rem; }
+.section-kicker { display: block; margin-bottom: .3rem; color: var(--blue-deep); font-size: .66rem; font-weight: 850; letter-spacing: .18em; }
+.food-backups-heading h2 { margin: 0; font-size: 1.22rem; line-height: 1.3; letter-spacing: -.02em; }
+.food-area { overflow: hidden; margin-top: .72rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 5px 18px rgba(31, 35, 41, .06); }
+.food-area > summary { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .82rem 1rem; cursor: pointer; list-style: none; }
+.food-area > summary::-webkit-details-marker { display: none; }
+.food-area > summary > span:first-child { min-width: 0; display: flex; align-items: baseline; gap: .5rem; }
+.food-area > summary strong { font-size: .96rem; }
+.food-area > summary small { color: var(--ink-soft); font-size: .7rem; }
+.food-area[open] > summary .summary-toggle { transform: rotate(225deg) translate(-2px, -2px); }
+.food-area-content { border-top: 1px solid var(--line-soft); padding: .85rem 1rem 1rem; }
+.food-area-note { margin: 0 0 .45rem; color: var(--ink-soft); font-size: .78rem; line-height: 1.55; }
+.food-option { padding: .82rem 0; border-top: 1px solid var(--line-soft); }
+.food-option:first-child { border-top: 0; }
+.food-option-heading { display: flex; align-items: center; justify-content: space-between; gap: .8rem; }
+.food-option h3 { min-width: 0; margin: 0; font-size: .9rem; line-height: 1.45; }
+.food-option p { margin: .38rem 0 0; color: #555b63; font-size: .8rem; line-height: 1.58; }
+.food-option .spot-icon-button { width: 32px; height: 32px; flex: 0 0 auto; }
+.food-option .spot-icon-button svg { width: 15px; height: 15px; }
+.utility-strip { display: flex; flex-wrap: wrap; gap: .55rem; margin: 1.8rem 0 0 98px; padding-top: 1rem; border-top: 1px solid var(--line-soft); }
+.text-button { min-height: 42px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .62rem .9rem; font: inherit; font-size: .79rem; font-weight: 700; text-decoration: none; cursor: pointer; }
+.toast { position: fixed; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom)); z-index: 60; max-width: calc(100% - 2rem); transform: translate(-50%, 140%); transition: transform .25s ease; background: var(--ink); color: white; border-radius: 999px; padding: .72rem 1rem; box-shadow: var(--shadow); font-size: .84rem; }
 .toast.show { transform: translate(-50%, 0); }
+.empty-day { margin-left: 2rem; color: var(--ink-soft); }
 
-@media (min-width: 720px) {
-  .topbar { padding-inline: 1.5rem; }
-  .date-scroll { justify-content: center; }
-  .page-shell { padding-top: 2rem; }
-  .timeline-card { grid-template-columns: 64px 1fr; gap: 1.8rem; }
-  .timeline::before { left: 80px; }
-  .timeline-time::after { left: 75px; }
+@media (max-width: 560px) {
+  .topbar { min-height: 108px; padding-inline: 1.15rem; }
+  .top-title strong { font-size: 2rem; }
+  .top-meta small { display: none; }
+  .date-tab { min-width: 108px; }
+  .page-shell { padding: 1.8rem 1.15rem calc(4.5rem + env(safe-area-inset-bottom)); }
+  .day-heading { grid-template-columns: 76px minmax(0, 1fr); gap: .9rem; }
+  .day-date strong { font-size: 1.24rem; }
+  .day-title-row { display: block; }
+  .weather-note { display: inline-flex; margin-top: .55rem; }
+  .timeline { margin-left: 76px; }
+  .timeline-card { padding-left: 1.8rem; }
+  .day-note, .food-backups, .utility-strip { margin-left: 76px; }
 }
+
 @media (max-width: 390px) {
+  .topbar { min-height: 102px; }
+  .top-title strong { font-size: 1.82rem; }
+  .top-kicker { font-size: .68rem; }
+  .day-heading { grid-template-columns: 68px minmax(0, 1fr); }
+  .timeline { margin-left: 68px; }
+  .day-note, .food-backups, .utility-strip { margin-left: 68px; }
   .ticket-gallery { grid-template-columns: 1fr; }
+  .detail-row { grid-template-columns: 3.8rem minmax(0, 1fr); gap: .5rem; }
 }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
@@ -134,13 +363,16 @@ button { font: inherit; }
 <body>
   <a class="skip-link" href="#timeline">跳到当天行程</a>
   <header class="topbar">
-    <div class="trip-mark" aria-label="东京与伊豆旅行手册">
-      <span class="trip-stamp">旅</span>
-      <span><b>东京与伊豆</b><small>2026.09.30—10.06</small></span>
+    <div class="top-title" aria-label="东京与伊豆逐日行程">
+      <span class="top-kicker">DAY BY DAY</span>
+      <strong>逐日行程</strong>
     </div>
-    <button class="icon-button" id="installButton" type="button" hidden aria-label="安装到手机主屏幕" title="安装到手机主屏幕">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 15v4h14v-4"/></svg>
-    </button>
+    <div class="top-actions">
+      <div class="top-meta"><b>共7天</b><small>东京 · 伊豆</small></div>
+      <button class="icon-button" id="installButton" type="button" hidden aria-label="安装到手机主屏幕" title="安装到手机主屏幕">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 15v4h14v-4"/></svg>
+      </button>
+    </div>
   </header>
 
   <nav class="date-ribbon" aria-label="选择日期">
@@ -149,17 +381,30 @@ button { font: inherit; }
 
   <main id="main" class="page-shell">
     <section class="day-heading" aria-live="polite">
-      <div>
-        <span class="eyebrow" id="dayEyebrow"></span>
-        <h1 id="dayTitle"></h1>
+      <div class="day-date">
+        <strong id="dayDate"></strong>
+        <span id="dayWeekday"></span>
+      </div>
+      <div class="day-copy">
+        <div class="day-title-row">
+          <h1 id="dayTitle"></h1>
+          <span class="weather-note" id="dayBadge"></span>
+        </div>
         <p id="daySummary"></p>
       </div>
-      <span class="weather-note" id="dayBadge"></span>
     </section>
 
     <section id="timeline" class="timeline" aria-label="当天时间轴"></section>
 
     <aside class="day-note" id="dayNote" hidden></aside>
+
+    <section class="food-backups" aria-labelledby="foodBackupsTitle">
+      <div class="food-backups-heading">
+        <span class="section-kicker">FOOD BACKUP</span>
+        <h2 id="foodBackupsTitle">按区域吃饭备选</h2>
+      </div>
+      <div id="foodBackups"></div>
+    </section>
 
     <section class="utility-strip" aria-label="旅行工具">
       <button id="todayButton" class="text-button" type="button">查看旅行当天</button>
@@ -174,103 +419,150 @@ button { font: inherit; }
     id: '09-30', date: '9/30', weekday: '周三', label: '抵达', title: '抵达夜，先把自己安顿好', summary: '成田 T2 · 东京站 · 京桥', badge: '抵达日',
     note: '机场大巴班次与站台以票面和现场指示为准。',
     nodes: [
-      { time:'18:25', place:'成田机场 T2', mode:'✈', modeText:'落地与入境', transit:'预留约 90 分钟办理入境、取行李，之后前往 A 出口', noNav:true, details:[['状态','航班已订，以航司通知为准']] },
+      { time:'18:25', place:'成田机场 T2', mode:'✈', modeText:'落地与入境', transit:'预留约 90 分钟办理入境、取行李，之后前往 A 出口', noNav:true, details:[['状态','航班已订，以航司通知为准']], collapsibleImage:{ title:'入境审查及海关申报二维码', src:'images/visit-japan-web-qr-wu-jiayu.jpg', alt:'WU JIAYU 的 Visit Japan Web 入境审查及海关申报二维码' } },
       { time:'20:00', place:'成田机场 T2 机场大巴售票处', mode:'🚌', modeText:'机场大巴', transit:'在国际到达厅 A 正面柜台购买 TYO-NRT 指定班次车票', noNav:true, details:[['购票','成人 ¥1,500；购买指定班次车票'],['乘车','从 N2 出口右转到 6 号站台，至少提前 5 分钟到；以票面和现场指示为准'],['到达','约 65–90 分钟，在东京站日本桥口下车']] },
-      { time:'21:30', place:'东京站日本桥口', mode:'🚶', modeText:'步行转乘', transit:'大巴下车后步行约 4–6 分钟，前往都营浅草线日本桥站', next:'Nihombashi Station A3 Entrance Tokyo', travelMode:'walking', details:[['路线','从日本桥口向日本桥站方向步行，A3 入口较近'],['行李','若更需要电梯，可按现场无障碍标识前往 A4 或 A7 入口']] },
-      { time:'21:40', place:'都营浅草线 日本桥站', mode:'🚇', modeText:'地铁 1 站', transit:'乘西马込／羽田机场方向列车，下一站宝町 A12', next:'Takaracho Station Tokyo', travelMode:'transit', details:[['方向','西马込、羽田机场或泉岳寺方向；上车前确认下一站为宝町'],['车程','仅 1 站，约 2 分钟']] },
-      { time:'21:50', place:'宝町站 A7 出口', mode:'🚶', modeText:'步行 1 分钟', transit:'从 A7 出口前往相铁 FRESA INN 东京京桥', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'walking', details:[['出口','A7 距酒店最近，出站后约 1 分钟'],['全程','大巴有座；下车后步行合计约 5–7 分钟，无需打车']] },
-      { time:'22:00', place:'相铁 FRESA INN 东京京桥', mode:'🏨', modeText:'入住', transit:'9/30 入住，10/4 退房，连住 4 晚', next:'Pain Maison Ginza', travelMode:'walking', cta:'预览明日首站', details:[] }
+      { time:'21:30', place:'东京站日本桥口', mode:'🚶', modeText:'步行转乘', transit:'大巴下车后步行约 4–6 分钟，前往都营浅草线日本桥站', mapTarget:'Tokyo Station Nihombashi Exit', next:'Nihombashi Station A3 Entrance Tokyo', travelMode:'walking', details:[['路线','从日本桥口向日本桥站方向步行，A3 入口较近'],['行李','若更需要电梯，可按现场无障碍标识前往 A4 或 A7 入口']] },
+      { time:'21:40', place:'都营浅草线 日本桥站', mode:'🚇', modeText:'地铁 1 站', transit:'乘西马込／羽田机场方向列车，下一站宝町 A12', mapTarget:'Nihombashi Station A3 Exit Tokyo', next:'Takaracho Station Tokyo', travelMode:'transit', details:[['方向','西马込、羽田机场或泉岳寺方向；上车前确认下一站为宝町'],['车程','仅 1 站，约 2 分钟']] },
+      { time:'21:50', place:'宝町站 A7 出口', mode:'🚶', modeText:'步行 1 分钟', transit:'从 A7 出口前往相铁 FRESA INN 东京京桥', mapTarget:'Takaracho Station Exit A7 Tokyo', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'walking', details:[['出口','A7 距酒店最近，出站后约 1 分钟'],['全程','大巴有座；下车后步行合计约 5–7 分钟，无需打车']] },
+      { time:'22:00', place:'相铁 FRESA INN 东京京桥', mode:'🏨', modeText:'入住', transit:'9/30 入住，10/4 退房，连住 4 晚', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Fukumimi Ginza 1', travelMode:'walking', details:[] },
+      { time:'22:15', place:'Fukumimi Ginza 1', mode:'🍢', modeText:'深夜晚餐', transit:'放下行李后步行前往，现场 walk-in', mapTarget:'Fukumimi Ginza 1 1-14-11 Ginza Chuo City Tokyo', next:'Pain Maison Ginza', travelMode:'walking', cta:'预览明日首站', details:[['地址','银座 1-14-11 银松大厦 B1F'],['营业','23:15 关门']] }
     ]
   },
   {
-    id:'10-01', date:'10/1', weekday:'周四', label:'原宿', title:'原宿到涩谷的一天', summary:'盐面包 · 明治神宫 · SHIBUYA SKY · 烧鸟', badge:'SKY 已购',
-    note:'交通时间包含进出站步行。想多逛街时，可缩短明治神宫和竹下通，但不要挤占 SHIBUYA SKY 入场缓冲。',
+    id:'10-01', date:'10/1', weekday:'周四', label:'原宿', title:'原宿、表参道与涩谷', summary:'逛街三角 · SHIBUYA SKY · 六本木可选', badge:'SKY 已购',
+    note:'白天集中在原宿—表参道—涩谷三角区域。六本木放在 SHIBUYA SKY 之后，按体力决定是否前往。',
     nodes:[
-      { time:'10:10', place:'相铁 FRESA INN 东京京桥', mode:'🚶', modeText:'出发', transit:'步行约 15 分钟去买盐面包', next:'Pain Maison Ginza', travelMode:'walking', details:[['起床','08:40，预留 1.5 小时准备']] },
-      { time:'10:25', place:'Pain Maison 银座店', mode:'🥐', modeText:'早餐', transit:'买完步行至银座一丁目站，前往原宿', next:'Meiji Jingu', travelMode:'transit', details:[['地址','银座 2-14-5'],['营业','08:30–19:00，周二休'],['费用','原味盐面包约 ¥120/个'],['点单','建议每人 2 个，其他口味两人分享']] },
-      { time:'11:50', place:'明治神宫', mode:'⛩', modeText:'轻量游览', transit:'原宿口进出，鸟居、参道、本殿为主', next:'Takeshita Street', travelMode:'walking', details:[['交通','银座线到表参道，换千代田线一站'],['时段','11:50–12:35']] },
-      { time:'12:40', place:'竹下通', mode:'🚶', modeText:'步行', transit:'只逛感兴趣的店，之后步行去汤咖喱', next:'Rojiura Curry SAMURAI Harajuku', travelMode:'walking', details:[['时段','12:40–13:15'],['小吃','可丽饼两人分享，留胃口吃午餐']] },
-      { time:'13:25', place:'Rojiura Curry SAMURAI.', mode:'🍛', modeText:'午餐', transit:'原宿店用餐约 1 小时', next:'Omotesando', travelMode:'walking', details:[['地址','神宫前 1-2-14，竹下口步行约 7 分钟'],['推荐','鸡腿与 12 种蔬菜，约 ¥2,090'],['点单','鸡腿选酥脆或软嫩；辣度 1–2，米饭 S/M'],['预约','不可预约；排队超过 25 分钟换附近熟食'],['营业','午市 11:00–15:30，最后点单 15:00']] },
-      { time:'14:40', place:'表参道一带', mode:'🛍', modeText:'购物', transit:'选 1–2 家，再坐副都心线一站去涩谷', next:'SHIBUYA SKY', travelMode:'transit', details:[['候选','Laforet、Kiddy Land、Harakado'],['时段','14:40–15:30 购物；15:30–16:00 移动与休息']] },
-      { time:'17:00', place:'SHIBUYA SKY', mode:'🌇', modeText:'门票已购', transit:'16:40 到楼下，前往 14F 入场层并准备两张电子票', next:'Shibuya PARCO', travelMode:'walking', details:[['入场','10/1（周四）17:00–17:19'],['人数','2 位成人，门票已购'],['票价','Webket ¥3,400/人；两人 ¥6,800'],['凭证','每人一张二维码，入场时分别出示'],['观景','建议停留至 18:30，覆盖日落与蓝调']], ticketImages:['images/shibuya-sky-ticket-1.jpg','images/shibuya-sky-ticket-2.jpg'] },
-      { time:'18:35', place:'涩谷精选一站', mode:'🛍', modeText:'购物', transit:'PARCO 或 109 选一，中古店只顺路看', next:'Toritake Sohonten', travelMode:'walking', details:[['时段','18:35–19:15'],['取舍','10/3 还有银座购物，不在此处超时']] },
-      { time:'19:25', place:'鳥竹総本店', mode:'🍢', modeText:'烧鸟晚餐', transit:'道玄坂步行前往，20:40 左右结束', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'transit', details:[['地址','涩谷道玄坂 1-6-1'],['营业','12:00–23:00'],['点单','先少量点ねぎま、つくね、手羽，喜欢再加'],['饮食','不点生鸡肉类；主食可配米饭或烧鸟丼'],['预算','¥3,000–5,000/人，酒水另计'],['备选','排队超过 20 分钟，改站边熟食正餐']] },
-      { time:'20:45', place:'返回京桥酒店', mode:'🚇', modeText:'银座线直达', transit:'涩谷到京桥，约 21:30 回房', next:'Tokyo DisneySea', travelMode:'transit', cta:'预览明日目的地', details:[['次日','06:00 起床，07:30 出门']] }
+      { time:'10:10', place:'相铁 FRESA INN 东京京桥', mode:'🚶', modeText:'出发', transit:'步行约 15 分钟去买盐面包', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Pain Maison Ginza', travelMode:'walking', details:[['起床','08:40，预留 1.5 小时准备']] },
+      { time:'10:25', place:'Pain Maison 银座店', mode:'🥐', modeText:'早餐', transit:'买完从银座一丁目前往原宿', mapTarget:'pain maison Ginza 2-14-5 Ginza Tokyo', next:'Takeshita Street Harajuku', travelMode:'transit', details:[['地址','银座 2-14-5'],['营业','08:30–19:00，周二休'],['费用','原味盐面包约 ¥120/个'],['点单','建议每人 2 个，其他口味两人分享']] },
+      { time:'11:30', place:'原宿与竹下通', mode:'🛍', modeText:'开始逛街', transit:'竹下通、Laforet 选感兴趣的店，之后沿 Cat Street 前进', mapTarget:'Takeshita Street Harajuku', next:'Rojiura Curry SAMURAI Harajuku', travelMode:'walking', details:[['时段','11:30–12:30'],['方向','从原宿向神宫前、Cat Street 方向推进'],['小吃','想吃可丽饼就两人分享，留胃口吃午餐']] },
+      { time:'12:35', place:'Rojiura Curry SAMURAI. 原宿店', mode:'🍛', modeText:'午餐', transit:'原宿店用餐约 1 小时，之后开始逛表参道方向', mapTarget:'Rojiura Curry SAMURAI Harajuku 1-2-14 Jingumae Tokyo', next:'Cat Street Tokyo', travelMode:'walking', details:[['地址','神宫前 1-2-14，竹下口步行约 7 分钟'],['推荐','鸡腿与 12 种蔬菜，约 ¥2,090'],['汤底首选','奶油虾：香浓但不腻、没有明显腥味，整体最平衡'],['温和备选','椰子汤：海鲜感较弱，与香辛料和食材融合柔和'],['清爽备选','番茄汤：番茄味明显、酸度较高，偏清爽的东南亚风味'],['点单','鸡腿选酥脆或软嫩；辣度 1–2，米饭 S/M'],['到店','直接 walk-in，无需预约；排队超过 25 分钟换附近熟食'],['营业','午市 11:00–15:30，最后点单 15:00']] },
+      { time:'13:40', place:'Cat Street 与表参道', mode:'🛍', modeText:'三角形主线', transit:'沿 Cat Street 和表参道选店，逐步往涩谷方向走', mapTarget:'Cat Street Tokyo', next:'Shibuya PARCO', travelMode:'walking', details:[['时段','13:40–15:10'],['候选','Kiddy Land、Harakado、运动品牌与沿街店铺按兴趣取舍'],['节奏','不折返扫店；看到喜欢的店再进去']] },
+      { time:'15:10', place:'涩谷商圈', mode:'🛍', modeText:'购物与休息', transit:'PARCO、109 或附近商店选一处，16:20 开始前往 SKY', mapTarget:'Shibuya PARCO', next:'SHIBUYA SKY', travelMode:'walking', details:[['时段','15:10–16:20'],['涩谷 109','辣妹文化发源地，甜酷少女风穿搭、平价彩妆配饰；喜欢日系少女风可慢慢淘'],['休息','安排一次咖啡或坐下休息'],['截止','16:40 前到达 SHIBUYA SKY 14F 入场层']] },
+      { time:'17:00', place:'SHIBUYA SKY', mode:'🌇', modeText:'门票已购', transit:'16:40 到楼下，前往 14F 入场层并准备两张电子票', mapTarget:'SHIBUYA SKY', next:'Shibuya PARCO', travelMode:'walking', details:[['入场','10/1（周四）17:00–17:19'],['人数','2 位成人，门票已购'],['票价','Webket ¥3,400/人；两人 ¥6,800'],['凭证','每人一张二维码，入场时分别出示'],['观景','建议停留至 18:30，覆盖日落与蓝调']], ticketImages:['images/shibuya-sky-ticket-1.jpg','images/shibuya-sky-ticket-2.jpg'] },
+      { place:'东京塔拍照打卡（备选）', collapsed:true, transit:'如果看完 SHIBUYA SKY 后还有体力，可以改走东京塔拍照线；选择这条线时跳过六本木支线。', spots:[
+        { name:'赤羽橋交差路牌', mapTarget:'赤羽橋交差点 東京都港区東麻布1丁目', xhsLink:'https://www.xiaohongshu.com/discovery/item/69ef668c00000000360014a5?source=webshare&xhsshare=pc_web&xsec_token=ABS5eBUfPWbSa5jNzDPg0AuyNT2hMyb3JFY6pNOPq-rJM=&xsec_source=pc_share' },
+        { name:'东京塔秋千机位', mapTarget:'芝中学校 東京都港区芝公園3丁目5-37', xhsLink:'https://www.xiaohongshu.com/discovery/item/6a82163a0000000035014327?source=webshare&xhsshare=pc_web&xsec_token=ABVYWdgoMUUvnEU9dtLXQMKVA5Ak0vUuJgiqn0lL1p2qc=&xsec_source=pc_share' }
+      ] },
+      { time:'18:35', place:'六本木夜间支线（可选）', mode:'🚌', modeText:'体力允许再去', transit:'涩谷站东口 51 号站台乘都01，约 16 分钟到六本木站前', mapTarget:"L'Atelier du Pain Roppongi Tokyo", next:"L'Atelier du Pain Roppongi Tokyo", travelMode:'transit', details:[['决定','离开 SKY 后再判断；累了就留在涩谷'],['不去六本木','改去鳥竹総本店吃晚饭，再乘银座线回京桥'],['提醒','去六本木就不再折返涩谷吃鳥竹']] },
+      { time:'19:00', place:"L’Atelier du Pain", mode:'🥖', modeText:'六本木面包店', transit:'到六本木后先买面包，再步行前往 Tokyo Midtown', mapTarget:"L'Atelier du Pain Roppongi 6-1-12 Tokyo", next:'Tokyo Midtown', travelMode:'walking', details:[['营业','周四 07:30–22:00'],['选择','晚上热门款可能售罄，现场有什么就选什么'],['距离','六本木站约 1–2 分钟；到 Midtown 约 5–10 分钟']] },
+      { time:'19:20', place:'Tokyo Midtown', mode:'🛍', modeText:'逛店与晚餐', transit:'先逛茅乃舎、DEAN & DELUCA，再选一家吃晚饭', mapTarget:'Tokyo Midtown Roppongi', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'transit', details:[['购物','茅乃舎调味料、DEAN & DELUCA'],['晚餐','鸡三和亲子丼或御食事 茅乃舎二选一'],['时间','食品与咖啡区域通常至 21:00，普通商店多至 20:00'],['离开','约 21:00 返回京桥酒店']] },
+      { time:'21:00', place:'返回京桥酒店', mode:'🚇', modeText:'返回休息', transit:'从六本木返回京桥，约 21:35–21:45 回房', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Tokyo DisneySea', travelMode:'transit', cta:'预览明日目的地', details:[['次日','06:00 起床，07:30 出门']] }
     ]
   },
   {
     id:'10-02', date:'10/2', weekday:'周五', label:'迪士尼', title:'DisneySea 全天', summary:'入园后先处理 DPA，路线随预约时间调整', badge:'已订',
     note:'园区开放、设施休止、移动点餐和演出时间，以 Tokyo Disney Resort App 为准。',
     nodes:[
-      { time:'06:00', place:'京桥酒店', mode:'⏰', modeText:'起床准备', transit:'07:30 出门，早餐简单解决', next:'Tokyo DisneySea', travelMode:'transit', details:[['发型','低位马尾或半扎，避免高大或易掉落发饰']] },
-      { time:'08:20', place:'Tokyo DisneySea', mode:'🚆', modeText:'到园排队', transit:'东京站京叶线到舞滨，再换度假区线', next:'Tokyo DisneySea Entrance', travelMode:'walking', details:[['目标','08:15–08:30 到园，给安检和入园队伍留缓冲'],['开放','计划参考 09:00–21:00，以当日官网和 App 为准']] },
-      { time:'入园后', place:'离开闸口通道', mode:'📱', modeText:'先处理 DPA', transit:'两人扫码入园后再购票，成功后截图保存时间', next:'Frozen Kingdom Tokyo DisneySea', travelMode:'walking', details:[['规则','免费 PP 已于 2026/8/31 结束，本日不适用'],['首选','Frozen，约 ¥2,500/人'],['次选','Soaring 约 ¥2,500/人；长发公主约 ¥2,000/人'],['预算','DPA 预留 ¥5,000–7,000/人，不含门票']] },
-      { time:'上午', place:'已预约项目所在区域', mode:'🎢', modeText:'按 DPA 排路线', transit:'若上午有梦幻泉乡档，直接向园区深处走', next:'Casbah Food Court', travelMode:'walking', details:[] },
-      { time:'11:00', place:'Casbah Food Court', mode:'🍛', modeText:'提早午餐', transit:'在北侧园区就近吃热食，避开正午高峰', next:'Fantasy Springs Tokyo DisneySea', travelMode:'walking', details:[['餐食','咖喱或熟食套餐，查看菜单里的生蛋'],['预算','全天园内餐食与饮料约 ¥4,000–6,000/人']] },
-      { time:'下午', place:'梦幻泉乡与阿拉伯海岸', mode:'🎠', modeText:'分区游玩', transit:'Frozen、长发公主按票时段，辛巴达看排队', next:'Mediterranean Harbor Tokyo DisneySea', travelMode:'walking', details:[['休息','15:00 左右预留 30 分钟']] },
-      { time:'17:30', place:'园内晚餐与夜景', mode:'🌙', modeText:'晚间安排', transit:'就近吃晚餐，晚间节目公布后再决定观看位置', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'transit', cta:'返回酒店', details:[['夜秀','时间以当天 App 为准'],['离园','20:30–21:00'],['返程','度假区线回舞滨，京叶线回东京，约 22:15 到房']] }
+      { time:'06:00', place:'京桥酒店', mode:'⏰', modeText:'起床准备', transit:'07:30 出门，早餐简单解决', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Tokyo DisneySea', travelMode:'transit', details:[['发型','低位马尾或半扎，避免高大或易掉落发饰']] },
+      { time:'08:20', place:'Tokyo DisneySea', mode:'🚆', modeText:'到园排队', transit:'东京站京叶线到舞滨，再换度假区线', mapTarget:'Tokyo DisneySea Entrance', next:'Tokyo DisneySea Entrance', travelMode:'walking', details:[['目标','08:15–08:30 到园，给安检和入园队伍留缓冲'],['开放','计划参考 09:00–21:00，以当日官网和 App 为准']] },
+      { time:'入园后', place:'离开闸口通道', mode:'📱', modeText:'先处理 DPA', transit:'两人扫码入园后再购票，成功后截图保存时间', noNav:true, next:'Frozen Kingdom Tokyo DisneySea', travelMode:'walking', details:[['规则','免费 PP 已于 2026/8/31 结束，本日不适用'],['首选','Frozen，约 ¥2,500/人'],['次选','Soaring 约 ¥2,500/人；长发公主约 ¥2,000/人'],['预算','DPA 预留 ¥5,000–7,000/人，不含门票']] },
+      { time:'上午', place:'已预约项目所在区域', mode:'🎢', modeText:'按 DPA 排路线', transit:'若上午有梦幻泉乡档，直接向园区深处走', noNav:true, next:'Casbah Food Court', travelMode:'walking', details:[] },
+      { time:'11:00', place:'Casbah Food Court', mode:'🍛', modeText:'提早午餐', transit:'在北侧园区就近吃热食，避开正午高峰', mapTarget:'Casbah Food Court Tokyo DisneySea', next:'Fantasy Springs Tokyo DisneySea', travelMode:'walking', details:[['餐食','咖喱或熟食套餐，查看菜单里的生蛋'],['预算','全天园内餐食与饮料约 ¥4,000–6,000/人']] },
+      { time:'下午', place:'梦幻泉乡与阿拉伯海岸', mode:'🎠', modeText:'分区游玩', transit:'Frozen、长发公主按票时段，辛巴达看排队', mapTarget:'Fantasy Springs Tokyo DisneySea', next:'Mediterranean Harbor Tokyo DisneySea', travelMode:'walking', details:[['导航点','梦幻泉乡入口；园内移动以官方 App 为准'],['休息','15:00 左右预留 30 分钟']] },
+      { time:'17:30', place:'园内晚餐与夜景', mode:'🌙', modeText:'晚间安排', transit:'就近吃晚餐，晚间节目公布后再决定观看位置', noNav:true, next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'transit', cta:'返回酒店', details:[['夜秀','时间以当天 App 为准'],['离园','20:30–21:00'],['返程','度假区线回舞滨，京叶线回东京，约 22:15 到房']] }
     ]
   },
   {
-    id:'10-03', date:'10/3', weekday:'周六', label:'浅草', title:'浅草的老街与河岸', summary:'浅草寺 · Pignic · 墨田川 · 银座 · THE BAR', badge:'Pignic 已订',
-    note:'保留浅草寺、Pignic 与午餐。午后走墨田川的安静路线，不登晴空塔；全程步行约 1.5–2 公里。',
+    id:'10-03', date:'10/3', weekday:'周六', label:'浅草', title:'浅草、河岸与银座', summary:'浅草寺 · Pignic · 隅田川 · 银座 · 三よし', badge:'Pignic 已订',
+    note:'白天集中在浅草与隅田川，下午回到银座购物；晚间先去 THE BAR 喝一杯，再到三よし吃天丼。',
     nodes:[
-      { time:'10:30', place:'京桥酒店', mode:'🚇', modeText:'前往浅草', transit:'宝町站乘都营浅草线，选停靠浅草的列车', next:'Kaminarimon Gate', travelMode:'transit', details:[['早晨','09:00 起床，早餐在酒店附近解决'],['预计','约 11:05 抵达浅草']] },
-      { time:'11:05', place:'浅草寺核心段', mode:'⛩', modeText:'步行游览', transit:'雷门、仲见世、宝藏门、五重塔、本堂', next:'Pignic Asakusa', travelMode:'walking', details:[['时段','11:05–12:20']] },
-      { time:'12:30', place:'pignic cafe asakusa', mode:'🐷', modeText:'预约已确认', transit:'建议 12:20 到店', next:'pignic cafe asakusa', travelMode:'walking', details:[['预约','2026/10/3（周六）12:30，2 人，已确认'],['预约姓名','WU JIAYU'],['方案','Private Interaction Room，30 分钟'],['地址','东京都台东区浅草 1-17-4 VORT 浅草雷门 3F，111-0032']], privateLink:'https://booking.ebica.jp/webrsv/booked/info/468926722?site_code=e014070801&shop_id=34411&auth_key=beaa61513c7e5a270774a60e80c4262c8fc41ac52f8df937513f49304780bfd7dcc827183f587e8660f99b422f79280ce995824559ebdfeb9f329df354ff0d58&language=en' },
-      { time:'13:10', place:'浅草午餐与甜品', mode:'🍱', modeText:'熟食午餐', transit:'鳗鱼饭优先，再挑一份甜品', next:'Sumida River Walk', travelMode:'walking', details:[['主餐','Kutora 鳗鱼饭候选，预算 ¥2,000–3,500/人'],['偏好','全熟、吃得饱；和牛饭需明确要求完全加热'],['小吃','浅草 Menchi 炸肉饼，一份分享或各一个'],['甜品','草莓大福或抹茶冰淇淋，预算 ¥500–1,200'],['注意','14:00 停止继续逛小吃，现场不长时间等位']] },
-      { time:'14:00', place:'墨田川河岸', mode:'🚶', modeText:'安静散步', transit:'离开仲见世人群，拍河面与晴空塔远景', next:'Sumida River Walk', travelMode:'walking', details:[['时段','14:00–14:15'],['路线','沿东武铁路桥方向前进']] },
-      { time:'14:15', place:'SUMIDA RIVER WALK', mode:'🌉', modeText:'步行过河', transit:'沿桥步行约 160 米，到墨田公园东岸', next:'Sumida Park', travelMode:'walking', details:[['开放','07:00–22:00'],['注意','恶劣天气可能关闭']] },
-      { time:'14:30', place:'墨田公园东岸', mode:'📷', modeText:'拍照与休息', transit:'以晴空塔为背景拍照', next:'Ushijima Shrine', travelMode:'walking', details:[['时段','14:30–14:55']] },
-      { time:'14:55', place:'牛嶋神社', mode:'⛩', modeText:'短停', transit:'看三轮鸟居与抚牛，之后去本所吾妻桥站', next:'Higashi-ginza Station', travelMode:'transit', details:[['时段','14:55–15:15'],['交通','步行至本所吾妻桥站，浅草线到东银座']] },
-      { time:'16:00', place:'银座购物', mode:'🛍', modeText:'重点购物', transit:'百货、美妆、服装和杂货按兴趣选择', next:'Shabusen Ginza', travelMode:'walking', details:[['百货','松屋或三越选一家'],['后段','UNIQLO、MUJI 或 GINZA SIX 按兴趣选'],['中古','KOMEHYO 最多 20 分钟'],['截止','18:10 前往晚餐']] },
-      { time:'18:30', place:'しゃぶせん 银座店', mode:'🍲', modeText:'寿喜烧晚餐', transit:'EXIT MELSA 8F，银座站 A2 出口约 2 分钟', next:'サッポロ生ビール黒ラベル THE BAR 銀座', travelMode:'walking', details:[['主选','国产牛寿喜烧定食，150g，约 ¥5,500'],['熟食','牛肉煮熟，不用生蛋蘸汁；也可改涮涮锅'],['预约','目前不接受预约'],['营业','周六到 22:00，最后点单 21:00'],['备选','排队超过 30 分钟，改附近熟食餐厅']] },
-      { time:'20:10', place:'サッポロ生ビール黒ラベル THE BAR', mode:'🍺', modeText:'喝一杯', transit:'晚餐后步行约 1–2 分钟，约 20:45 离开', mapTarget:'サッポロ生ビール黒ラベル THE BAR 銀座', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'walking', details:[['点单','THE PERFECT 黑标'],['特点','3C 标准：Creamy、Clear、Cold'],['营业','周六 11:30–22:00，最后点单 21:30'],['地址','银座 5-8-1 GINZA PLACE B1F']] },
-      { time:'20:45', place:'返回京桥酒店', mode:'🧳', modeText:'整理行李', transit:'从银座返回酒店，准备次日退房', next:"W'd BELL Tokyo Station", travelMode:'walking', cta:'预览明日首站', details:[['次日','06:45 起床，08:15 退房']] }
+      { time:'10:30', place:'京桥酒店', mode:'🚇', modeText:'前往浅草', transit:'宝町站乘都营浅草线，选停靠浅草的列车', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Kaminarimon Gate', travelMode:'transit', details:[['早晨','09:00 起床，早餐在酒店附近解决'],['预计','约 11:05 抵达浅草']] },
+      { time:'11:05', place:'浅草寺核心段', mode:'⛩', modeText:'步行游览', transit:'雷门、仲见世、宝藏门、五重塔、本堂', mapTarget:'Senso-ji Tokyo', next:'Pignic Asakusa', travelMode:'walking', details:[['时段','11:05–12:20']] },
+      { time:'12:30', place:'pignic cafe asakusa', mode:'🐷', modeText:'预约已确认', transit:'建议 12:20 到店', mapTarget:'pignic cafe asakusa VORT Asakusa Kaminarimon 3F', next:'pignic cafe asakusa', travelMode:'walking', details:[['预约','2026/10/3（周六）12:30，2 人，已确认'],['预约姓名','WU JIAYU'],['方案','Private Interaction Room，30 分钟'],['地址','东京都台东区浅草 1-17-4 VORT 浅草雷门 3F，111-0032']], privateLink:'https://booking.ebica.jp/webrsv/booked/info/468926722?site_code=e014070801&shop_id=34411&auth_key=beaa61513c7e5a270774a60e80c4262c8fc41ac52f8df937513f49304780bfd7dcc827183f587e8660f99b422f79280ce995824559ebdfeb9f329df354ff0d58&language=en' },
+      { time:'13:10', place:'浅草午餐与甜品', mode:'🍱', modeText:'熟食午餐', transit:'鳗鱼饭优先，再挑一份甜品', noNav:true, next:'Sumida River Walk', travelMode:'walking', details:[['主餐','Kutora 鳗鱼饭候选，预算 ¥2,000–3,500/人'],['偏好','全熟、吃得饱；和牛饭需明确要求完全加热'],['小吃','浅草 Menchi 炸肉饼，一份分享或各一个'],['甜品','草莓大福或抹茶冰淇淋，预算 ¥500–1,200'],['注意','14:00 停止继续逛小吃，现场不长时间等位']] },
+      { time:'14:00', place:'隅田川河岸', mode:'🚶', modeText:'安静散步', transit:'离开仲见世人群，拍河面与晴空塔远景', mapTarget:'Sumida River Walk Asakusa Entrance', next:'Sumida River Walk', travelMode:'walking', details:[['导航点','SUMIDA RIVER WALK 浅草侧入口'],['时段','14:00–14:15'],['路线','沿东武铁路桥方向前进']] },
+      { time:'14:15', place:'SUMIDA RIVER WALK', mode:'🌉', modeText:'步行过河', transit:'沿桥步行约 160 米，到隅田公园东岸', mapTarget:'Sumida River Walk Tokyo', next:'Sumida Park', travelMode:'walking', details:[['开放','07:00–22:00'],['注意','恶劣天气可能关闭']] },
+      { time:'14:30', place:'隅田公园东岸', mode:'📷', modeText:'拍照与休息', transit:'以晴空塔为背景拍照，之后直接前往银座', mapTarget:'Sumida Park Breeze Plaza', next:'Ginza Mitsukoshi', travelMode:'transit', details:[['导航点','墨田区侧 Breeze Plaza'],['时段','14:30–14:55'],['交通','步行至本所吾妻桥站，乘都营浅草线到东银座']] },
+      { time:'15:40', place:'银座购物', mode:'🛍', modeText:'重点购物', transit:'百货、美妆、服装和杂货按兴趣选择', mapTarget:'Ginza Mitsukoshi', next:'サッポロ生ビール黒ラベル THE BAR 銀座', travelMode:'walking', details:[['导航点','默认定位银座三越'],['百货','松屋或三越选一家'],['后段','UNIQLO、MUJI 或 GINZA SIX 按兴趣选'],['截止','18:30 左右前往 THE BAR']], shoppingGuide:{ image:'images/ginza-shopping-guide.jpg', alt:'银座购物攻略地图', xhsLink:'https://www.xiaohongshu.com/discovery/item/68ee6cff00000000030232d6?source=webshare&xhsshare=pc_web&xsec_token=ABT0Si6LOz-c6HEBhi1Deuc1JCRh4XmGPTPDjHP_Sx9w8=&xsec_source=pc_share', shops:[
+        { name:'LUMINE 有乐町', mapTarget:'ルミネ有楽町 東京都千代田区有楽町2丁目5-1', notes:[['定位','日系女装与亲民品牌'],['LUMINE 1','B1–5F 有 Snidel、Lily Brown、MERCURYDUO 等日系女装'],['其他','7F 有 ABC-MART 与 @cosme STORE；B1 有退税柜台']] },
+        { name:'KOMEHYO 银座店', mapTarget:'KOMEHYO GINZA Tokyo', notes:[['1F','珠宝、包包、鞋履与墨镜；Tiffany、VCA、Cartier 较多'],['2F','高级珠宝、名表、Hermès；有 Chanel 墙及 Hermès 专区，可能遇到稀有色或停产款']] }
+      ]} },
+      { time:'18:40', place:'サッポロ生ビール黒ラベル THE BAR', mode:'🍺', modeText:'喝一杯', transit:'点一杯 THE PERFECT，19:20 前离开去晚餐', mapTarget:'サッポロ生ビール黒ラベル THE BAR 銀座5-8-1 GINZA PLACE B1F', next:'レア天丼 銀座 三よし 銀座本店', travelMode:'walking', details:[['点单','THE PERFECT 黑标'],['特点','3C 标准：Creamy、Clear、Cold'],['营业','周六 11:30–22:00，最后点单 21:30'],['地址','银座 5-8-1 GINZA PLACE B1F']] },
+      { time:'20:00', place:'レア天丼 銀座 三よし 銀座本店', mode:'🍤', modeText:'天丼晚餐', transit:'从 THE BAR 步行约 6–8 分钟，建议提前预约', mapTarget:'レア天丼 銀座 三よし 銀座本店 東京都中央区銀座6-3-15', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'walking', details:[['地址','银座 6-3-15 昭和イーティングビル 1F'],['席位','吧台 9 席，建议预约'],['营业','周六晚市 17:30–22:00，最后点单 21:30'],['迟到','超过预约时间 10 分钟且未联系，可能被取消'],['预算','晚餐约 ¥3,000–4,000/人']] },
+      { time:'21:10', place:'返回京桥酒店', mode:'🧳', modeText:'整理行李', transit:'晚餐后步行返回酒店，准备次日退房', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:"W'd BELL Tokyo Station", travelMode:'walking', cta:'预览明日首站', details:[['次日','06:45 起床，08:15 退房']] }
     ]
   },
   {
     id:'10-04', date:'10/4', weekday:'周日', label:'去伊豆', title:'编发后，坐舞女号去伊豆', summary:'东京站 · 伊豆热川 · 吉祥 CAREN', badge:'列车已订',
-    note:'W’d BELL 档位、两人同时做和行李寄放仍需确认；酒店接驳按日文官网要求提前预约。',
+    note:'编发已预约；结束后回酒店取行李并退房，目标 10:20–10:30 到达东京站 9 号站台。酒店接驳按日文官网要求提前预约。',
     nodes:[
-      { time:'08:15', place:'京桥酒店', mode:'🧳', modeText:'退房', transit:'带行李步行前往发廊', next:"W'd BELL Tokyo Station", travelMode:'walking', details:[['起床','06:45，预留 1.5 小时准备']] },
-      { time:'08:30', place:'W’d BELL 东京站前店', mode:'🎀', modeText:'专业编发', transit:'预计约 45 分钟，之后前往东京站', next:'Tokyo Station', travelMode:'walking', details:[['预约','目标 08:30，待订'],['确认','两人能否同时做、工时、价格与行李寄放'],['备选','若只能分开做，改约 07:30 起连续两档'],['营业','周日早上 07:00 起可预约']] },
-      { time:'09:35', place:'东京站', mode:'🎫', modeText:'取票与候车', transit:'确认站台，舞女号 11:00 发车', next:'Izu-Atagawa Station', travelMode:'transit', details:[] },
-      { time:'11:00', place:'特急舞女号', mode:'🚆', modeText:'前往伊豆', transit:'东京站 11:00 发，13:05 到伊豆热川；指定席已订', next:'Izu-Atagawa Station', travelMode:'transit', details:[] },
-      { time:'13:05', place:'伊豆热川站', mode:'🚌', modeText:'酒店接驳', transit:'到海侧巴士区，等待 13:30 接站', next:'Kissho Caren', travelMode:'driving', details:[['预约','接站需提前 3 天预约']] },
-      { time:'14:00', place:'吉祥 CAREN', mode:'♨', modeText:'入住与温泉', transit:'先寄存或办理入住，下午留给浴衣、海景与泡汤', next:'Kissho Caren', travelMode:'walking', details:[['住宿','海景日式套房，连住 2 晚'],['餐饮','订单显示 Teppanyaki Course Dinner，含早晚餐'],['下午茶','到店后询问供应与连住福利'],['房间','入住时间按订单执行']] },
-      { time:'19:30', place:'酒店铁板烧餐厅', mode:'🥩', modeText:'第一晚晚餐', transit:'酒店内用餐', next:'Mount Omuro', travelMode:'driving', cta:'预览明日目的地', details:[['目标','争取 19:30 用餐时段'],['饮食','明确要求刺身换熟食'],['第二晚','询问连住是否可以换一种料理'],['确认','实际时段与菜品以酒店回复为准']] }
+      { time:'08:20', place:'京桥酒店', mode:'🚶', modeText:'出发去编发', transit:'行李先留在房间，步行约 3 分钟前往发廊', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Hair Set Salon CHARMER 東京駅前', travelMode:'walking', details:[['起床','06:45，出门前整理好退房行李']] },
+      { time:'08:30', place:'Hair Set Salon CHARMER 东京站前店', mode:'🎀', modeText:'预约已确认', transit:'两人同时编发，预计约 1 小时，目标 09:30 完成', mapTarget:'Hair Set Salon CHARMER 東京駅前 東京都中央区京橋2丁目8-21 昭和ビル別館9F', next:'Sotetsu Fresa Inn Tokyo Kyobashi', travelMode:'walking', details:[['状态','已预约 · 两人同时'],['时长','约 1 小时，目标 09:30 完成']], collapsedDetails:{ title:'预约与费用详情', rows:[['预约号','BF77066188'],['地址','京桥 2-8-21 昭和ビル别馆 9F'],['套餐','双人推活编发，可选编发与发带'],['预约显示','¥3,500；同行人、周日及早朝追加费用未计入'],['预计费用','按券面约 ¥6,000/人，最终以店铺现场结算为准'],['付款','到店支付'],['迟到','超过 10 分钟可能无法服务']], links:[{ label:'查看预约详情', href:'https://beauty.hotpepper.jp/CSP/my/reserveStatus/?reserveId=BF77066188&vos=dhpbrmgmk10120100200&mailSPO=5e8f663ba6bf5b68' },{ label:'店铺地图', href:'https://maps.google.com/maps?q=35.6775155,139.7707463' }] } },
+      { time:'09:35', place:'返回京桥酒店', mode:'🧳', modeText:'取行李退房', transit:'编发后步行返回酒店，取行李并办理退房，目标 09:50 出发', mapTarget:'Sotetsu Fresa Inn Tokyo Kyobashi', next:'Tokyo Station', travelMode:'walking', details:[] },
+      { time:'10:20', place:'东京站 9 号站台', mode:'🎫', modeText:'候车', transit:'确认 1 号车厢，SAPHIR 踊子号 1 于 11:00 发车', mapTarget:'Tokyo Station', next:'Izu-Atagawa Station', travelMode:'transit', details:[] },
+      { time:'11:00', place:'SAPHIR 踊子号 1', mode:'🚆', modeText:'列车已订', transit:'东京站 11:00 发，13:05 到伊豆热川，车程 2 小时 5 分钟', noNav:true, next:'Izu-Atagawa Station', travelMode:'transit', details:[['站台','东京站 9 号站台'],['车厢','1 号车厢 · 豪华绿色车厢'],['座位','3A、3B'],['乘客','2 位成人，已出票'],['票价','¥559/人']], collapsibleImage:{ title:'查看乘车二维码', src:'images/saphir-odoriko-2026-10-04.png', alt:'10月4日 SAPHIR 踊子号 1 电子车票与二维码', caption:'点击图片放大' }, externalLinks:[{ label:'领取指南', href:'https://www.klook.cn/zh-CN/notice_content/20297/?spm=MobilityPTP_BookingDetail.Pickup_Info_Expanded.GetDirections&clickId=cb6f9f5bf7' }] },
+      { time:'13:05', place:'伊豆热川站', mode:'🚌', modeText:'酒店接驳', transit:'到海侧巴士区，等待 13:30 接站', mapTarget:'Izu-Atagawa Station', next:'Kissho Caren', travelMode:'driving', details:[['预约','接站需提前 3 天预约']] },
+      { time:'14:00', place:'吉祥 CAREN', mode:'♨', modeText:'入住与温泉', transit:'先寄存或办理入住，下午留给浴衣、海景与泡汤', mapTarget:'Kissho CAREN 1130-1 Naramoto Higashiizu', next:'Kissho Caren', travelMode:'walking', details:[['住宿','海景日式套房，连住 2 晚'],['餐饮','订单显示 Teppanyaki Course Dinner，含早晚餐'],['下午茶','到店后询问供应与连住福利'],['房间','入住时间按订单执行']] },
+      { time:'19:30', place:'酒店铁板烧餐厅', mode:'🥩', modeText:'第一晚晚餐', transit:'酒店内用餐', noNav:true, next:'Mount Omuro', travelMode:'driving', cta:'预览明日目的地', details:[['目标','争取 19:30 用餐时段'],['饮食','明确要求刺身换熟食'],['第二晚','询问连住是否可以换一种料理'],['确认','实际时段与菜品以酒店回复为准']] }
     ]
   },
   {
     id:'10-05', date:'10/5', weekday:'周一', label:'伊豆', title:'大室山与动物公园', summary:'先看山顶天气，再决定城崎海岸', badge:'早起日',
     note:'大室山强风停运时，先去旁边的动物公园，午后再查。明显疲劳或风雨时取消海岸，早点回酒店。',
     nodes:[
-      { time:'07:30', place:'吉祥 CAREN 早餐', mode:'🍳', modeText:'酒店早餐', transit:'吃完准备出门，先查缆车运转情况', next:'Mount Omuro', travelMode:'driving', details:[['起床','06:00 起床'],['早餐','争取 07:30，酒店订单含早餐'],['出发','08:30 预约出租车']] },
-      { time:'08:30', place:'酒店门口', mode:'🚕', modeText:'预约出租车', transit:'酒店直达大室山，预留约 40 分钟', next:'Mount Omuro', travelMode:'driving', details:[['预约','请酒店协助确认车程与用车'],['费用','出租车费用以实际计价和酒店报价为准']] },
-      { time:'09:10', place:'大室山', mode:'🚡', modeText:'缆车与山顶', transit:'环火山口步道约 1 公里', next:'Izu Shaboten Zoo', travelMode:'walking', details:[['时段','09:10–10:40'],['营业','10 月参考 09:00–16:00'],['天气','强风或恶劣天气可能停运'],['穿着','山顶有坡道且迎风，穿平底防滑鞋'],['切换','停运时先去动物公园，午后再查']] },
-      { time:'10:50', place:'伊豆仙人掌动物公园', mode:'🦫', modeText:'动物与温室', transit:'从大室山脚步行约 10 分钟衔接', next:'Izu Shaboten Zoo Restaurant', travelMode:'walking', details:[['时段','10:50–13:40'],['重点','水豚、园内散养动物与仙人掌温室'],['体验','投喂、游船需看现场收费与等待'],['营业','参考 09:30–17:00，以当日公告为准']] },
-      { time:'12:30', place:'动物公园园内午餐', mode:'🍽', modeText:'热食午餐', transit:'园内选择热餐，边吃边判断体力与天气', next:'Kadowaki Suspension Bridge', travelMode:'driving', details:[['午餐','酒店便当领取晚于出发时间，不等便当'],['决定','13:40 判断是否去海岸；累了直接回酒店']] },
-      { time:'14:10', place:'城ヶ崎海岸 · 门胁吊桥', mode:'🌊', modeText:'可删减短线', transit:'出租车到门胁吊桥停车区，只走核心短线', next:'Kadowaki Suspension Bridge', travelMode:'walking', details:[['交通','13:40–14:10 从动物公园乘出租车'],['路线','门胁吊桥、灯塔外观、海崖观景'],['避免','不从车站走长距离步道，原路返回'],['注意','风雨或明显疲劳时取消']] },
-      { time:'15:20', place:'门胁吊桥停车区', mode:'🚕', modeText:'预约回程车', transit:'提前预约车辆返回酒店', next:'Kissho Caren', travelMode:'driving', cta:'返回酒店', details:[['预计','15:20 出发，约 16:10 回酒店']] }
+      { time:'07:30', place:'吉祥 CAREN 早餐', mode:'🍳', modeText:'酒店早餐', transit:'吃完准备出门，先查缆车运转情况', mapTarget:'Kissho CAREN 1130-1 Naramoto Higashiizu', next:'Mount Omuro', travelMode:'driving', details:[['起床','06:00 起床'],['早餐','争取 07:30，酒店订单含早餐'],['出发','08:30 预约出租车']] },
+      { time:'08:30', place:'酒店门口', mode:'🚕', modeText:'预约出租车', transit:'酒店直达大室山，预留约 40 分钟', mapTarget:'Kissho CAREN 1130-1 Naramoto Higashiizu', next:'Mount Omuro', travelMode:'driving', details:[['预约','请酒店协助确认车程与用车'],['费用','出租车费用以实际计价和酒店报价为准']] },
+      { time:'09:10', place:'大室山', mode:'🚡', modeText:'缆车与山顶', transit:'环火山口步道约 1 公里', mapTarget:'Mount Omuro Lift', next:'Izu Shaboten Zoo', travelMode:'walking', details:[['时段','09:10–10:40'],['营业','10 月参考 09:00–16:00'],['天气','强风或恶劣天气可能停运'],['穿着','山顶有坡道且迎风，穿平底防滑鞋'],['切换','停运时先去动物公园，午后再查']] },
+      { time:'10:50', place:'伊豆仙人掌动物公园', mode:'🦫', modeText:'动物与温室', transit:'从大室山脚步行约 10 分钟衔接', mapTarget:'Izu Shaboten Zoo', next:'Izu Shaboten Zoo Restaurant', travelMode:'walking', details:[['时段','10:50–13:40'],['重点','水豚、园内散养动物与仙人掌温室'],['体验','投喂、游船需看现场收费与等待'],['营业','参考 09:30–17:00，以当日公告为准']] },
+      { time:'12:30', place:'动物公园园内午餐', mode:'🍽', modeText:'热食午餐', transit:'园内选择热餐，边吃边判断体力与天气', mapTarget:'森のどうぶつレストラン GIBBONTEI', next:'Kadowaki Suspension Bridge', travelMode:'driving', details:[['导航点','默认定位森之动物餐厅 GIBBONTEI'],['午餐','酒店便当领取晚于出发时间，不等便当'],['决定','13:40 判断是否去海岸；累了直接回酒店']] },
+      { time:'14:10', place:'城ヶ崎海岸 · 门胁吊桥', mode:'🌊', modeText:'可删减短线', transit:'出租车到门胁吊桥停车区，只走核心短线', mapTarget:'Kadowaki Suspension Bridge', next:'Kadowaki Suspension Bridge', travelMode:'walking', details:[['交通','13:40–14:10 从动物公园乘出租车'],['路线','门胁吊桥、灯塔外观、海崖观景'],['避免','不从车站走长距离步道，原路返回'],['注意','风雨或明显疲劳时取消']] },
+      { time:'15:20', place:'门胁吊桥停车区', mode:'🚕', modeText:'预约回程车', transit:'提前预约车辆返回酒店', mapTarget:'門脇駐車場 伊東市', next:'Kissho Caren', travelMode:'driving', cta:'返回酒店', details:[['预计','15:20 出发，约 16:10 回酒店']] }
     ]
   },
   {
     id:'10-06', date:'10/6', weekday:'周二', label:'返程', title:'返程日，先守住飞机', summary:'伊豆热川 · 东京站 · 成田机场', badge:'航班 17:05',
     note:'N’EX 仍待订。按 JR 2026 年 9 月平日时刻表制定，购票时需复核 10/6 实际班次和航站楼。',
     nodes:[
-      { time:'08:15', place:'吉祥 CAREN 早餐', mode:'🧳', modeText:'早餐与退房', transit:'行李前一晚收好，早餐后办理退房', next:'Izu-Atagawa Station', travelMode:'driving', details:[['起床','06:45 起床'],['送站','目标 09:30 酒店送站班次，住宿期间提前预约']] },
-      { time:'09:30', place:'酒店门口', mode:'🚌', modeText:'送站', transit:'酒店接驳前往伊豆热川站', next:'Izu-Atagawa Station', travelMode:'driving', details:[] },
-      { time:'10:32', place:'伊豆热川站', mode:'🚆', modeText:'已订舞女号', transit:'10:32 出发，12:48 到东京站', next:'Tokyo Station', travelMode:'transit', details:[] },
-      { time:'12:48', place:'东京站', mode:'🚶', modeText:'站内换乘', transit:'预留约 45 分钟，跟随指引前往 N’EX 站台', next:'Narita Airport Terminal 2', travelMode:'transit', details:[] },
-      { time:'13:33', place:'N’EX 29 号', mode:'🚆', modeText:'待订', transit:'目标班次前往成田机场', next:'Narita Airport Terminal 2', travelMode:'transit', details:[['时刻','参考 13:33 东京站发车'],['到达','14:27 T2；14:31 T1'],['预约','购票时复核 10/6 班次并确认出发航站楼']] },
-      { time:'14:27', place:'成田机场', mode:'🛫', modeText:'值机与安检', transit:'按航司确认的航站楼下车，约留 2.5 小时', next:'Narita International Airport', travelMode:'walking', details:[['值机','以航司截止时间为准'],['延误','列车延误时立即查替代交通并联系航司']] },
-      { time:'17:05', place:'返程航班', mode:'✈', modeText:'起飞', transit:'航班已订，以航司最终通知为准', next:'Narita International Airport', travelMode:'walking', cta:'打开机场地图', details:[] }
+      { time:'08:15', place:'吉祥 CAREN 早餐', mode:'🧳', modeText:'早餐与退房', transit:'行李前一晚收好，早餐后办理退房', mapTarget:'Kissho CAREN 1130-1 Naramoto Higashiizu', next:'Izu-Atagawa Station', travelMode:'driving', details:[['起床','06:45 起床'],['送站','目标 09:30 酒店送站班次，住宿期间提前预约']] },
+      { time:'09:30', place:'酒店门口', mode:'🚌', modeText:'送站', transit:'酒店接驳前往伊豆热川站', mapTarget:'Kissho CAREN 1130-1 Naramoto Higashiizu', next:'Izu-Atagawa Station', travelMode:'driving', details:[] },
+      { time:'10:32', place:'踊子号 2', mode:'🚆', modeText:'返程列车已订', transit:'伊豆热川 10:32 发，12:48 到东京站，车程 2 小时 16 分钟', mapTarget:'Izu-Atagawa Station', next:'Tokyo Station', travelMode:'transit', details:[['车厢','4 号车厢 · 指定席绿色车厢'],['座位','3A、3B'],['乘客','2 位成人，已出票'],['基础票价','¥391/人；车站取票'],['特急票','电子票']], collapsibleImage:{ title:'车票二维码与特急电子票', src:'images/odoriko-base-fare-2026-10-06.png', alt:'10月6日踊子号2基础票价车票二维码', caption:'基础票价车票 · 点击图片放大', links:[{ label:'查看返程特急电子票', href:'https://res.klook.com/ptp_voucher/ekinet_web_book_ticket/ticket_less_pdf/20260906/RTY977637_1788657483_edc2f22c91300e64.pdf' }] }, externalLinks:[{ label:'领取指南', href:'https://www.klook.cn/zh-CN/notice_content/20297/?spm=MobilityPTP_BookingDetail.Pickup_Info_Expanded.GetDirections&clickId=cb6f9f5bf7' }] },
+      { time:'12:48', place:'东京站', mode:'🚶', modeText:'站内换乘', transit:'预留约 45 分钟，跟随指引前往 N’EX 站台', mapTarget:'Tokyo Station', next:'Narita Airport Terminal 2', travelMode:'transit', details:[] },
+      { time:'13:33', place:'N’EX 29 号', mode:'🚆', modeText:'待订', transit:'目标班次前往成田机场', noNav:true, next:'Narita Airport Terminal 2', travelMode:'transit', details:[['时刻','参考 13:33 东京站发车'],['到达','14:27 T2；14:31 T1'],['预约','购票时复核 10/6 班次并确认出发航站楼']] },
+      { time:'14:27', place:'成田机场', mode:'🛫', modeText:'值机与安检', transit:'按航司确认的航站楼下车，约留 2.5 小时', mapTarget:'Narita Airport Terminal 2', next:'Narita International Airport', travelMode:'walking', details:[['值机','以航司截止时间为准'],['延误','列车延误时立即查替代交通并联系航司']] },
+      { time:'17:05', place:'返程航班', mode:'✈', modeText:'起飞', transit:'航班已订，以航司最终通知为准', noNav:true, next:'Narita International Airport', travelMode:'walking', cta:'打开机场地图', details:[] }
+    ]
+  }
+];
+
+window.foodAlternatives = [
+  {
+    area: '银座 · 有乐町',
+    note: '适合 9/30 深夜、10/3 银座购物前后，按当时排队和食欲选择。',
+    open: true,
+    restaurants: [
+      {
+        name: '焼肉とかすうどん 龍の巣 銀座七丁目 G7',
+        reason: '想吃浓香热食时选：油渣拉面、油渣滑蛋盖饭；柚子雪芭清爽，适合收尾。',
+        mapTarget: '焼肉とかすうどん 龍の巣 銀座七丁目 G7 東京都中央区銀座7-2-8 東建ビル1F'
+      },
+      {
+        name: 'AFURI 有楽町',
+        reason: '想吃清爽口味时选：柚子蘸面香而不腻、面条劲道；辣汤面不是首选。',
+        mapTarget: 'AFURI 有楽町 東京都千代田区有楽町2丁目9-1 ルミネストリート'
+      },
+      {
+        name: 'おでんと炉端たけし 有楽町店',
+        reason: '想暖胃或小酌时选：牛舌优先，萝卜、豆腐袋、鱼饼、竹轮也稳；鸡汤底可点玉米笋、菜卷、肉丸。',
+        mapTarget: 'おでんと炉端たけし 有楽町店 東京都千代田区有楽町1-2-7'
+      }
+    ]
+  },
+  {
+    area: '池袋',
+    note: '不在当前主行程沿线，只有去池袋或愿意专程前往时再选。',
+    open: false,
+    restaurants: [
+      {
+        name: '遷 sen',
+        reason: '浓郁系蘸面：原味与辛辣味都可，面条滑嫩、酱汁浓但不齁；常排队，自助机仅收现金。',
+        mapTarget: '遷 sen 東京都豊島区西池袋1-24-8 江戸半ビル1F'
+      }
     ]
   }
 ];
 </script>
   <script>const tripDays = window.tripDays;
+const foodAlternatives = window.foodAlternatives || [];
 
 const $ = (selector) => document.querySelector(selector);
 const nav = $('#dateNav');
@@ -292,10 +584,14 @@ function mapLink(destination) {
 }
 
 function renderNav() {
-  nav.innerHTML = tripDays.map(day => `
+  nav.innerHTML = tripDays.map((day, index) => `
     <button class="date-tab" type="button" role="tab" aria-selected="${day.id === activeDay}" data-day="${day.id}">
-      <span>${day.weekday}</span><b>${day.date}</b>
+      <b>D${index + 1} · ${day.date}</b><span class="date-label">${day.label}</span>
     </button>`).join('');
+}
+
+function paddedDate(value) {
+  return value.split('/').map(part => part.padStart(2, '0')).join('/');
 }
 
 function detailRows(rows=[]) {
@@ -311,10 +607,91 @@ function ticketGallery(images=[]) {
     </a>`).join('')}</div>`;
 }
 
+function imageDisclosure(image) {
+  if (!image?.src) return '';
+  const links = (image.links || []).map(link => `<a class="disclosure-resource-link" href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`).join('');
+  return `<details class="image-disclosure">
+    <summary><span>${escapeHtml(image.title || '查看图片')}</span><span class="summary-toggle" aria-hidden="true"></span></summary>
+    <a class="disclosure-image-link" href="${escapeHtml(image.src)}" target="_blank" rel="noopener" aria-label="放大查看${escapeHtml(image.title || '图片')}">
+      <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt || image.title || '')}" loading="lazy">
+      <span>${escapeHtml(image.caption || '点击图片放大')}</span>
+    </a>
+    ${links ? `<div class="disclosure-links">${links}</div>` : ''}
+  </details>`;
+}
+
+function detailDisclosure(panel) {
+  if (!panel?.rows?.length && !panel?.links?.length) return '';
+  const rows = panel.rows?.length ? `<div class="disclosure-detail-rows">${detailRows(panel.rows)}</div>` : '';
+  const links = (panel.links || []).map(link => `<a class="disclosure-resource-link" href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`).join('');
+  return `<details class="detail-disclosure">
+    <summary><span>${escapeHtml(panel.title || '查看详情')}</span><span class="summary-toggle" aria-hidden="true"></span></summary>
+    ${rows}
+    ${links ? `<div class="disclosure-links">${links}</div>` : ''}
+  </details>`;
+}
+
+function spotLinks(spots=[]) {
+  return spots.map(spot => `<div class="spot-link-row">
+    <strong>${escapeHtml(spot.name)}</strong>
+    <div class="spot-link-actions">
+      <a class="spot-icon-button map-spot-button" target="_blank" rel="noopener" href="${mapLink(spot.mapTarget)}" aria-label="在 Google 地图查看 ${escapeHtml(spot.name)}" title="Google 地图">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+      </a>
+      <a class="spot-icon-button xhs-spot-button" target="_blank" rel="noopener" href="${escapeHtml(spot.xhsLink)}" aria-label="在小红书查看 ${escapeHtml(spot.name)}" title="小红书">薯</a>
+    </div>
+  </div>`).join('');
+}
+
+function mapIconLink(name, destination) {
+  return `<a class="spot-icon-button map-spot-button" target="_blank" rel="noopener" href="${mapLink(destination)}" aria-label="在 Google 地图查看 ${escapeHtml(name)}" title="Google 地图">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+  </a>`;
+}
+
+function shoppingGuide(guide) {
+  if (!guide?.image) return '';
+  const shops = (guide.shops || []).map(shop => `<section class="guide-shop">
+    <div class="guide-shop-heading"><h3>${escapeHtml(shop.name)}</h3>${mapIconLink(shop.name, shop.mapTarget)}</div>
+    <div class="guide-shop-notes">${detailRows(shop.notes)}</div>
+  </section>`).join('');
+  return `<section class="shopping-guide" aria-label="银座购物攻略">
+    <div class="guide-image-block">
+      <a class="guide-image-link" href="${escapeHtml(guide.image)}" target="_blank" rel="noopener" aria-label="放大查看银座购物攻略地图">
+        <img src="${escapeHtml(guide.image)}" alt="${escapeHtml(guide.alt || '银座购物攻略地图')}" loading="lazy">
+      </a>
+      <a class="spot-icon-button xhs-spot-button guide-xhs-button" target="_blank" rel="noopener" href="${escapeHtml(guide.xhsLink)}" aria-label="在小红书查看银座购物攻略" title="小红书">薯</a>
+    </div>
+    ${shops}
+  </section>`;
+}
+
+function renderFoodBackups() {
+  const container = $('#foodBackups');
+  if (!container || !foodAlternatives.length) return;
+  container.innerHTML = foodAlternatives.map(group => `<details class="food-area"${group.open ? ' open' : ''}>
+    <summary>
+      <span><strong>${escapeHtml(group.area)}</strong><small>${group.restaurants.length} 家</small></span>
+      <span class="summary-toggle" aria-hidden="true"></span>
+    </summary>
+    <div class="food-area-content">
+      <p class="food-area-note">${escapeHtml(group.note)}</p>
+      <div class="food-list">${group.restaurants.map(restaurant => `<article class="food-option">
+        <div class="food-option-heading">
+          <h3>${escapeHtml(restaurant.name)}</h3>
+          ${mapIconLink(restaurant.name, restaurant.mapTarget)}
+        </div>
+        <p>${escapeHtml(restaurant.reason)}</p>
+      </article>`).join('')}</div>
+    </div>
+  </details>`).join('');
+}
+
 function renderDay(id) {
   const day = tripDays.find(item => item.id === id) || tripDays[0];
   activeDay = day.id;
-  $('#dayEyebrow').textContent = `${day.date} ${day.weekday} · ${day.label}`;
+  $('#dayDate').textContent = paddedDate(day.date);
+  $('#dayWeekday').textContent = day.weekday;
   $('#dayTitle').textContent = day.title;
   $('#daySummary').textContent = day.summary;
   $('#dayBadge').textContent = day.badge;
@@ -326,21 +703,45 @@ function renderDay(id) {
     timeline.innerHTML = '<div class="empty-day">这一天的完整时间轴正在整理，样式与首日保持一致。</div>';
   } else {
     const cards = day.nodes.map(node => {
-      const navigationButton = node.noNav ? '' : `<a class="map-button" target="_blank" rel="noopener" href="${mapLink(node.mapTarget || node.place)}">导航</a>`;
+      if (node.collapsed) {
+        return `<article class="timeline-card optional-timeline-card">
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <details class="optional-card">
+            <summary><h2>${escapeHtml(node.place)}</h2><span class="summary-toggle" aria-hidden="true"></span></summary>
+            <div class="optional-card-content">
+              <p class="transit">${escapeHtml(node.transit)}</p>
+              <div class="spot-link-list">${spotLinks(node.spots)}</div>
+            </div>
+          </details>
+        </article>`;
+      }
+      const navigationButton = node.mapTarget && !node.noNav
+        ? `<a class="map-button" target="_blank" rel="noopener" aria-label="在 Google 地图查看 ${escapeHtml(node.place)}" href="${mapLink(node.mapTarget)}">导航</a>`
+        : '';
       const bookingButton = node.privateLink ? `<a class="booking-button" target="_blank" rel="noopener" href="${escapeHtml(node.privateLink)}">管理预约</a>` : '';
+      const externalButtons = (node.externalLinks || []).map(link => `<a class="resource-button" target="_blank" rel="noopener" href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`).join('');
       const visibleDetails = [...(node.details || []), ...(node.privateDetails || [])];
       const detailsPanel = visibleDetails.length ? `<div class="details-panel">${detailRows(visibleDetails)}</div>` : '';
+      const collapsedDetails = detailDisclosure(node.collapsedDetails);
+      const disclosure = imageDisclosure(node.collapsibleImage);
+      const guide = shoppingGuide(node.shoppingGuide);
       const tickets = ticketGallery(node.ticketImages);
       return `<article class="timeline-card">
-        <time class="timeline-time">${escapeHtml(node.time)}</time>
+        <span class="timeline-dot" aria-hidden="true"></span>
         <div class="place-card">
           <div class="place-main">
-            <div class="place-meta"><span class="mode-icon">${node.mode}</span><span>${escapeHtml(node.modeText)}</span></div>
+            <div class="event-line">
+              <time class="timeline-time">${escapeHtml(node.time)}</time>
+              <span class="place-meta"><span class="mode-icon">${node.mode}</span><span>${escapeHtml(node.modeText)}</span></span>
+            </div>
             <h2>${escapeHtml(node.place)}</h2>
             <p class="transit">${escapeHtml(node.transit)}</p>
             ${detailsPanel}
+            ${collapsedDetails}
+            ${disclosure}
+            ${guide}
             ${tickets}
-            ${navigationButton || bookingButton ? `<div class="card-actions">${bookingButton}${navigationButton}</div>` : ''}
+            ${navigationButton || bookingButton || externalButtons ? `<div class="card-actions">${externalButtons}${bookingButton}${navigationButton}</div>` : ''}
           </div>
         </div>
       </article>`;
@@ -384,6 +785,7 @@ $('#installButton').addEventListener('click', async () => {
   installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; $('#installButton').hidden = true;
 });
 
+renderFoodBackups();
 renderDay(activeDay);
 </script>
   <script>
